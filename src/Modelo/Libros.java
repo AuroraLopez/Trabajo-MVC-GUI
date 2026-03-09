@@ -7,7 +7,7 @@ public class Libros {
     protected String ISBN;
     protected String titulo;
     protected String editorial;
-     protected String autor;
+    protected String autor;
     protected int numPaginas;
     protected String descrip;
     protected String Genero;
