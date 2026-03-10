@@ -33,6 +33,7 @@ public class LibrosController {
             }
         });
     }
+    
     // ===============================
     // ==        METODO CRUD        ==
     // ===============================
@@ -45,7 +46,7 @@ public class LibrosController {
             int numPag = Integer.parseInt(view.txtnumPag.getText());
             String descripcion = view.txtDescripcion.getText();
             String genero = view.txtGenero.getText();
-            Date anio_pub = Date.valueOf(view.txtanio_pub.getText());
+            int anio_pub = Integer.parseInt(view.txtnumPag.getText());
             String url = view.txtURL.getText();
             Tipo tipo = Tipo.valueOf(view.txttipo.getText());
 
@@ -71,7 +72,7 @@ public class LibrosController {
             int numPag = Integer.parseInt(view.txtnumPag.getText());
             String descripcion = view.txtDescripcion.getText();
             String genero = view.txtGenero.getText();
-            Date anio_pub = Date.valueOf(view.txtanio_pub.getText());
+            int anio_pub = Integer.parseInt(view.txtnumPag.getText());
             String url = view.txtURL.getText();
             Tipo tipo = Tipo.valueOf(view.txttipo.getText());
 

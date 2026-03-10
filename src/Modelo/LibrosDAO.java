@@ -45,15 +45,15 @@ public class LibrosDAO {
         try (Connection conn = Conexion.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getISBN()); 
-            ps.setString(3, p.getTitulo());
-            ps.setString(4, p.getEditorial());
-            ps.setString(5, p.getAutor());
-            ps.setString(6, p.getDescrip());
-            ps.setString(7, p.getGenero());
-            ps.setInt(8, p.getAnio_pub());
-            ps.setString(9, p.getUrl());
+            ps.setString(2, p.getTitulo());
+            ps.setString(3, p.getEditorial());
+            ps.setString(4, p.getAutor());
+            ps.setString(5, p.getDescrip());
+            ps.setString(6, p.getGenero());
+            ps.setInt(7, p.getAnio_pub());
+            ps.setString(8, p.getUrl());
             //Enum a String
-            ps.setString(10, p.getTipo().name()); 
+            ps.setString(9, p.getTipo().name()); 
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }

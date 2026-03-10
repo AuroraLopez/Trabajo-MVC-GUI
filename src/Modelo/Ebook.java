@@ -1,8 +1,6 @@
 
 package Modelo;
 
-import java.sql.Date;
-
 public class Ebook extends Libros{
 
     //Atributos
@@ -23,8 +21,9 @@ public class Ebook extends Libros{
         this.tamanio = tamanio;
     }
 
+
     public Ebook(String iSBN, String titulo, String editorial, String autor, int numPaginas, String descrip,
-            String genero, Date anio_pub, String url, Tipo tipo, double tamanio, String formato) {
+            String genero, int anio_pub, String url, Tipo tipo, double tamanio, String formato) {
         super(iSBN, titulo, editorial, autor, numPaginas, descrip, genero, anio_pub, url, tipo);
         this.tamanio = tamanio;
         this.formato = formato;
