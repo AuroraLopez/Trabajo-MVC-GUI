@@ -73,11 +73,11 @@ public class LibrosDAO {
     }
 
     // DELETE
-    public void eliminar(int id) {
+    public void eliminar(String ISBN) {
         String sql = "DELETE FROM Libros WHERE id=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id); 
+            ps.setString(1, ISBN); 
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
