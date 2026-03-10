@@ -15,10 +15,13 @@ public class LibrosDAO {
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
+                
                 Tipo tipo = Tipo.valueOf(
                     rs.getString("tipo").toUpperCase() //Es necesario, porque la palabra debe ser identica, y cuenta las mayus
                 );
-                libros.add(new Libros(rs.getString("ISBN"),                     
+
+                libros.add(new Libros(
+                            rs.getString("ISBN"),                     
 	                        rs.getString("titulo"),
                             rs.getString("editorial"),
                             rs.getString("autor"),

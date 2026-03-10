@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.sql.Date;
+
 public class ParticipaPrestamo {
     //Atributos
     // protected Libros libro;
@@ -9,10 +11,14 @@ public class ParticipaPrestamo {
     
     protected String libro;
     protected int id_usuario;   
-    protected String fecha_prestamo;
-    protected String fecha_devolucion;
+    protected Date fecha_prestamo;
+    protected Date fecha_devolucion;
     
-    public ParticipaPrestamo(String libro, int id_usuario, String fecha_prestamo, String fecha_devolucion) {
+    
+    public ParticipaPrestamo() {
+    }
+
+    public ParticipaPrestamo(String libro, int id_usuario, Date fecha_prestamo, Date fecha_devolucion) {
         this.libro = libro;
         this.id_usuario = id_usuario;
         this.fecha_prestamo = fecha_prestamo;
@@ -35,19 +41,19 @@ public class ParticipaPrestamo {
         this.id_usuario = id_usuario;
     }
 
-    public String getFecha_prestamo() {
+    public Date getFecha_prestamo() {
         return fecha_prestamo;
     }
 
-    public void setFecha_prestamo(String fecha_prestamo) {
+    public void setFecha_prestamo(Date fecha_prestamo) {
         this.fecha_prestamo = fecha_prestamo;
     }
 
-    public String getFecha_devolucion() {
+    public Date getFecha_devolucion() {
         return fecha_devolucion;
     }
 
-    public void setFecha_devolucion(String fecha_devolucion) {
+    public void setFecha_devolucion(Date fecha_devolucion) {
         this.fecha_devolucion = fecha_devolucion;
     }
 
