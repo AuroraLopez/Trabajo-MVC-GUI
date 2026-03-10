@@ -69,7 +69,7 @@ public class UsuariosDAO {
 
     // DELETE
     public void eliminar(int id) {
-        String sql = "DELETE FROM Client WHERE id=?";
+        String sql = "DELETE FROM Usuarios WHERE id=?";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
