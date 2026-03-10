@@ -11,13 +11,13 @@ public class Libros {
     protected int numPaginas;
     protected String descrip;
     protected String Genero;
-    protected Date anio_pub;
+    protected int anio_pub;
     protected String url;
     protected Tipo tipo;
     
 
     public Libros(String iSBN, String titulo, String editorial, String autor, int numPaginas, String descrip,
-            String genero, Date anio_pub, String url, Tipo tipo) {
+            String genero, int anio_pub, String url, Tipo tipo) {
         ISBN = iSBN;
         this.titulo = titulo;
         this.editorial = editorial;
@@ -86,11 +86,11 @@ public class Libros {
         Genero = genero;
     }
 
-    public Date getAnio_pub() {
+    public int getAnio_pub() {
         return anio_pub;
     }
 
-    public void setAnio_pub(Date anio_pub) {
+    public void setAnio_pub(int anio_pub) {
         this.anio_pub = anio_pub;
     }
 

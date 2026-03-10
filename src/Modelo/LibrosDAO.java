@@ -25,7 +25,7 @@ public class LibrosDAO {
                             rs.getInt("numPag"),
                             rs.getString("descripcion"),
                             rs.getString("genero"),
-                            rs.getDate("anio_pub"),
+                            rs.getInt("anio_pub"),
                             rs.getString("url"),
                             tipo
                         ));
@@ -40,12 +40,13 @@ public class LibrosDAO {
         try (Connection conn = Conexion.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getISBN()); 
-            ps.setString(3, p.getTitulo());
-            ps.setString(4, p.getEditorial());
-            ps.setString(5, p.getAutor());
+            ps.setString(2, p.getTitulo());
+            ps.setString(3, p.getEditorial());
+            ps.setString(4, p.getAutor());
+            ps.setInt(5, p.getNumPaginas());
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
-            ps.setDate(8, p.getAnio_pub());
+            ps.setInt(8, p.getAnio_pub());
             ps.setString(9, p.getUrl());
             //Enum a String
             ps.setString(10, p.getTipo().name()); 
@@ -64,7 +65,7 @@ public class LibrosDAO {
             ps.setString(5, p.getAutor());
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
-            ps.setDate(8, p.getAnio_pub());
+            ps.setInt(8, p.getAnio_pub());
             ps.setString(9, p.getUrl());
             //Enum a String
             ps.setString(10, p.getTipo().name()); 
@@ -74,7 +75,7 @@ public class LibrosDAO {
 
     // DELETE
     public void eliminar(String ISBN) {
-        String sql = "DELETE FROM Libros WHERE id=?";
+        String sql = "DELETE FROM Libros WHERE isbn=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ISBN); 

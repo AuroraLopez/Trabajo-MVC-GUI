@@ -45,9 +45,9 @@ public class LibrosController {
             int numPag = Integer.parseInt(view.txtnumPag.getText());
             String descripcion = view.txtDescripcion.getText();
             String genero = view.txtGenero.getText();
-            Date anio_pub = Date.valueOf(view.txtanio_pub.getText());
+            int anio_pub = Integer.parseInt(view.txtanio_pub.getText());
             String url = view.txtURL.getText();
-            Tipo tipo = Tipo.valueOf(view.txttipo.getText());
+            Tipo tipo = Tipo.valueOf(view.txttipo.getText().toUpperCase());
 
             dao.insertar(new Libros(isbn, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo));
 
@@ -71,7 +71,7 @@ public class LibrosController {
             int numPag = Integer.parseInt(view.txtnumPag.getText());
             String descripcion = view.txtDescripcion.getText();
             String genero = view.txtGenero.getText();
-            Date anio_pub = Date.valueOf(view.txtanio_pub.getText());
+            int anio_pub = Integer.parseInt(view.txtanio_pub.getText());
             String url = view.txtURL.getText();
             Tipo tipo = Tipo.valueOf(view.txttipo.getText());
 

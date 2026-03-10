@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import Controlador.LibrosController;
 import Vista.LibrosView;
 
 public class App {
@@ -19,7 +20,7 @@ public class App {
         // tabbedPane.add("Proveedor", view3);
         // tabbedPane.add("Suministro", view4);
         // Definir el controlador asociado
-        // CategoriaController c1=new CategoriaController(view);
+        LibrosController l1=new LibrosController(view);
         // PiezaController c2=new PiezaController(view2);
         // ProveedorController c3=new ProveedorController(view3);
         // SuministraController c4=new SuministraController(view4);
