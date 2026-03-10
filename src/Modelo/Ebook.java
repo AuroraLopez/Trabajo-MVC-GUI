@@ -40,6 +40,6 @@ public class Ebook extends Libros{
 
     @Override
     public String toString() {
-        return "Ebook [tamanio=" + tamanio + ", formato=" + formato + "]";
+        return "Ebook [ISBN=" + ISBN + ", tamanio=" + tamanio + ", formato=" + formato + "]";
     }
 }

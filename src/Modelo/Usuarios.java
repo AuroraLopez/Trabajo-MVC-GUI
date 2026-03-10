@@ -6,9 +6,9 @@ public class Usuarios {
     protected String nombre;
     protected String ape1;
     protected String ape2;
-    protected String edad;
+    protected int edad;
     
-    public Usuarios(int id, String nombre, String ape1, String ape2, String edad) {
+    public Usuarios(int id, String nombre, String ape1, String ape2, int edad) {
         this.id = id;
         this.nombre = nombre;
         this.ape1 = ape1;
@@ -48,11 +48,11 @@ public class Usuarios {
         this.ape2 = ape2;
     }
 
-    public String getEdad() {
+    public int getEdad() {
         return edad;
     }
 
-    public void setEdad(String edad) {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 
