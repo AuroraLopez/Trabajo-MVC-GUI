@@ -27,7 +27,7 @@ public class LibrosDAO {
                             rs.getString("genero"),
                             rs.getDate("anio_pub"),
                             tipo
-                        )); //El problema era esto, tan solo era un parentisis demas xD
+                        ));
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return libros;
