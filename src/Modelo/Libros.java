@@ -12,10 +12,12 @@ public class Libros {
     protected String descrip;
     protected String Genero;
     protected Date anio_pub;
+    protected String url;
     protected Tipo tipo;
     
+
     public Libros(String iSBN, String titulo, String editorial, String autor, int numPaginas, String descrip,
-            String genero, Date anio_pub, Tipo tipo) {
+            String genero, Date anio_pub, String url, Tipo tipo) {
         ISBN = iSBN;
         this.titulo = titulo;
         this.editorial = editorial;
@@ -24,6 +26,7 @@ public class Libros {
         this.descrip = descrip;
         Genero = genero;
         this.anio_pub = anio_pub;
+        this.url = url;
         this.tipo = tipo;
     }
 
@@ -99,6 +102,14 @@ public class Libros {
         this.tipo = tipo;
     }
 
+       public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
     @Override
     public String toString() {
         return "Libros [ISBN=" + ISBN + ", titulo=" + titulo + ", editorial=" + editorial + ", autor=" + autor

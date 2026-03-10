@@ -10,7 +10,7 @@ public class LibrosDAO {
     // READ (lista de Persona)
     public ArrayList<Libros> listar() {
         ArrayList<Libros> libros = new ArrayList<>();
-        String sql = "SELECT ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, tipo FROM libros";
+        String sql = "SELECT ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo FROM libros";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -26,6 +26,7 @@ public class LibrosDAO {
                             rs.getString("descripcion"),
                             rs.getString("genero"),
                             rs.getDate("anio_pub"),
+                            rs.getString("url"),
                             tipo
                         ));
             }
@@ -35,7 +36,7 @@ public class LibrosDAO {
 
     // CREATE
     public void insertar(Libros p) {
-        String sql = "INSERT INTO Libros (ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Libros (ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Conexion.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getISBN()); 
@@ -45,15 +46,16 @@ public class LibrosDAO {
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
             ps.setDate(8, p.getAnio_pub());
+            ps.setString(9, p.getUrl());
             //Enum a String
-            ps.setString(9, p.getTipo().name()); 
+            ps.setString(10, p.getTipo().name()); 
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
 
     // UPDATE
     public void actualizar(Libros p) {
-        String sql = "UPDATE Libros SET titulo=?, editorial=?, autor=?, numPag=?, descripcion=?, genero=?, anio_pub=? WHERE ISBN=?";
+        String sql = "UPDATE Libros SET titulo=?, editorial=?, autor=?, numPag=?, descripcion=?, genero=?, anio_pub=?, url=?, tipo=? WHERE ISBN=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getISBN()); 
@@ -63,8 +65,9 @@ public class LibrosDAO {
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
             ps.setDate(8, p.getAnio_pub());
+            ps.setString(9, p.getUrl());
             //Enum a String
-            ps.setString(9, p.getTipo().name()); 
+            ps.setString(10, p.getTipo().name()); 
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
