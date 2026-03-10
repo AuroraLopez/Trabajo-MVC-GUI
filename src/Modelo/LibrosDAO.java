@@ -11,9 +11,11 @@ public class LibrosDAO {
     public ArrayList<Libros> listar() {
         ArrayList<Libros> libros = new ArrayList<>();
         String sql = "SELECT ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo FROM libros";
+        
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+            
             while (rs.next()) {
                 
                 Tipo tipo = Tipo.valueOf(
@@ -28,7 +30,7 @@ public class LibrosDAO {
                             rs.getInt("numPag"),
                             rs.getString("descripcion"),
                             rs.getString("genero"),
-                            rs.getDate("anio_pub"),
+                            rs.getInt("anio_pub"),
                             rs.getString("url"),
                             tipo
                         ));
@@ -48,7 +50,7 @@ public class LibrosDAO {
             ps.setString(5, p.getAutor());
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
-            ps.setDate(8, p.getAnio_pub());
+            ps.setInt(8, p.getAnio_pub());
             ps.setString(9, p.getUrl());
             //Enum a String
             ps.setString(10, p.getTipo().name()); 
@@ -67,7 +69,7 @@ public class LibrosDAO {
             ps.setString(5, p.getAutor());
             ps.setString(6, p.getDescrip());
             ps.setString(7, p.getGenero());
-            ps.setDate(8, p.getAnio_pub());
+            ps.setInt(8, p.getAnio_pub());
             ps.setString(9, p.getUrl());
             //Enum a String
             ps.setString(10, p.getTipo().name()); 
