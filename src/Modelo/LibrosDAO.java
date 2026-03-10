@@ -16,7 +16,7 @@ public class LibrosDAO {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Tipo tipo = Tipo.valueOf(
-                    rs.getString("tipo")
+                    rs.getString("tipo").toUpperCase() //Es necesario, porque la palabra debe ser identica, y cuenta las mayus
                 );
                 libros.add(new Libros(rs.getString("ISBN"),                     
 	                        rs.getString("titulo"),
@@ -27,35 +27,55 @@ public class LibrosDAO {
                             rs.getString("genero"),
                             rs.getDate("anio_pub"),
                             tipo
-                        ))));
+                        )); //El problema era esto, tan solo era un parentisis demas xD
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return libros;
     }
-    // // CREATE
-    // public void insertar(Categoria p) {
-    //     String sql = "INSERT INTO categoria (codigo, nombre) VALUES (?, ?)";
-    //     try (Connection conn = Conexion.getConnection();
-    //         PreparedStatement ps = conn.prepareStatement(sql)) {
-    //         ps.setInt(1, p.getId()); ps.setString(2, p.getNombre());
-    //         ps.executeUpdate();
-    //     } catch (SQLException e) { e.printStackTrace(); }
-    // }
-    // // UPDATE
-    // public void actualizar(Categoria p) {
-    //     String sql = "UPDATE categoria SET nombre=? WHERE codigo=?";
-    //     try (Connection conn = Conexion.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-    //         ps.setString(1, p.getNombre());
-    //         ps.setInt(2, p.getId()); ps.executeUpdate();
-    //     } catch (SQLException e) {  e.printStackTrace();  }
-    // }
-    // // DELETE
-    // public void eliminar(int id) {
-    //     String sql = "DELETE FROM categoria WHERE codigo=?";
-    //     try (Connection conn = Conexion.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-    //         ps.setInt(1, id); ps.executeUpdate();
-    //     } catch (SQLException e) {  e.printStackTrace();  }
-    // }
+
+    // CREATE
+    public void insertar(Libros p) {
+        String sql = "INSERT INTO Libros (ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = Conexion.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, p.getISBN()); 
+            ps.setString(3, p.getTitulo());
+            ps.setString(4, p.getEditorial());
+            ps.setString(5, p.getAutor());
+            ps.setString(6, p.getDescrip());
+            ps.setString(7, p.getGenero());
+            ps.setDate(8, p.getAnio_pub());
+            //Enum a String
+            ps.setString(9, p.getTipo().name()); 
+            ps.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    // UPDATE
+    public void actualizar(Libros p) {
+        String sql = "UPDATE Libros SET titulo=?, editorial=?, autor=?, numPag=?, descripcion=?, genero=?, anio_pub=? WHERE ISBN=?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, p.getISBN()); 
+            ps.setString(3, p.getTitulo());
+            ps.setString(4, p.getEditorial());
+            ps.setString(5, p.getAutor());
+            ps.setString(6, p.getDescrip());
+            ps.setString(7, p.getGenero());
+            ps.setDate(8, p.getAnio_pub());
+            //Enum a String
+            ps.setString(9, p.getTipo().name()); 
+            ps.executeUpdate();
+        } catch (SQLException e) {  e.printStackTrace();  }
+    }
+
+    // DELETE
+    public void eliminar(int id) {
+        String sql = "DELETE FROM Libros WHERE id=?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id); 
+            ps.executeUpdate();
+        } catch (SQLException e) {  e.printStackTrace();  }
+    }
 }
