@@ -1,6 +1,6 @@
 package Modelo;
 
 public enum Tipo {
-    EBBOK,
+    EBOOK,
     IMPRESO
 }
