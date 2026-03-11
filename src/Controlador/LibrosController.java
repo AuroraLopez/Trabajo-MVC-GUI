@@ -22,8 +22,29 @@ public class LibrosController {
 
     private void initController(){
         view.btnInsertar.addActionListener(e -> insertar());
-        view.btnActualizar.addActionListener(e -> actualizar());
-        view.btnEliminar.addActionListener(e -> eliminar());
+        view.btnActualizar.addActionListener(e -> 
+            {int respuesta = JOptionPane.showConfirmDialog(
+            view, // Componente padre
+            "¿Estás seguro de que deseas actualizar este registro?", // Mensaje
+            "Confirmar Actualización", // Título
+            JOptionPane.YES_NO_OPTION // Tipo de botones
+    );
+
+    if (respuesta == JOptionPane.YES_OPTION) {
+        actualizar();
+    }
+});
+        view.btnEliminar.addActionListener(e -> 
+            {int respuesta = JOptionPane.showConfirmDialog(
+            view, // Componente padre
+            "¿Estás seguro de que deseas borrar este registro?", // Mensaje
+            "Confirmar Actualización", // Título
+            JOptionPane.YES_NO_OPTION // Tipo de botones
+    );
+
+    if (respuesta == JOptionPane.YES_OPTION) {
+        eliminar();
+    }});
         view.btnLimpiar.addActionListener(e -> limpiar());
 
         view.tabla.getSelectionModel().addListSelectionListener(e ->{
