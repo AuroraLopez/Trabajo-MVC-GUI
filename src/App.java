@@ -1,8 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.text.View;
 
-import Controlador.LibrosController;
-import Vista.LibrosView;
+import Controlador.*;
+import Modelo.*;
+import Vista.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -11,16 +13,17 @@ public class App {
         JTabbedPane tabbedPane =new JTabbedPane();
         tabbedPane.setBounds(50,50,300,200);
         LibrosView view = new LibrosView();
-        // PiezaView view2= new PiezaView();
+        ParticipaPrestamosView view2= new ParticipaPrestamosView();
         // ProveedorView view3= new ProveedorView();
         // SuministroView view4= new SuministroView();
         // Añadir los paneles como pestañas
         tabbedPane.add("Libros", view);
-        // tabbedPane.add("Pieza", view2);
+        tabbedPane.add("Prestamos", view2);
         // tabbedPane.add("Proveedor", view3);
         // tabbedPane.add("Suministro", view4);
         // Definir el controlador asociado
         LibrosController l1=new LibrosController(view);
+        ParticipaPrestamosController p1 = new ParticipaPrestamosController(view2);
         // PiezaController c2=new PiezaController(view2);
         // ProveedorController c3=new ProveedorController(view3);
         // SuministraController c4=new SuministraController(view4);

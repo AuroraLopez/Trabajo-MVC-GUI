@@ -47,7 +47,7 @@ public class ParticipaPrestamoDAO {
             ps.setString(1, e.getLibro());
             ps.setInt(2, e.getId_usuario());
             ps.setDate(3, e.getFecha_prestamo());
-            ps.setDate(3, e.getFecha_devolucion());
+            ps.setDate(4, e.getFecha_devolucion());
 
             ps.executeUpdate();
 
