@@ -10,8 +10,8 @@ import java.util.List;
 public class ParticipaPrestamoDAO {
 
     // READ
-    public List<ParticipaPrestamoDAO> listar() {
-        List<ParticipaPrestamoDAO> lista = new ArrayList<>();
+    public List<ParticipaPrestamo> listar() {
+        List<ParticipaPrestamo> lista = new ArrayList<>();
         String sql = "SELECT id_libro, id_usuario, fecha_prestamo, fecha_devolucion FROM ParticipaPrestamoDAO";
 
         try (Connection conn = Conexion.getConnection();
@@ -21,11 +21,11 @@ public class ParticipaPrestamoDAO {
             while (rs.next()) { 
             
                 //Constructor
-                lista.add(new ParticipaPrestamoDAO(
+                lista.add(new ParticipaPrestamo(
                     rs.getString("id_libro"),
                     rs.getInt("id_usuario"),
-                    rs.getString("fecha_prestamo"),
-                    rs.getString("fecha_devolucion")
+                    rs.getDate("fecha_prestamo"),
+                    rs.getDate("fecha_devolucion")
                 ));
             }
 
@@ -38,19 +38,16 @@ public class ParticipaPrestamoDAO {
 
 
     // CREATE
-    public void insertar(Edicion e) {
-        String sql = "INSERT INTO Edicion (id, id_curso, fecha_inicio, fecha_fin, horario, lugar, id_empleado_imparte) VALUES (?,?,?,?,?,?,?)";
+    public void insertar(ParticipaPrestamo e) {
+        String sql = "INSERT INTO ParticipaPrestamo (id_libro, id_usuario, fecha_prestamo, fecha_devolucion) VALUES (?,?,?,?)";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, e.getId());
-            ps.setInt(2, e.getIdCurso());
-            ps.setDate(3, e.getFechaInicio());
-            ps.setDate(4, e.getFechaFin());
-            ps.setString(5, e.getHorario());
-            ps.setString(6, e.getLugar());
-            ps.setObject(7, e.getIdEmpleadoImparte());
+            ps.setString(1, e.getLibro());
+            ps.setInt(2, e.getId_usuario());
+            ps.setDate(3, e.getFecha_prestamo());
+            ps.setDate(4, e.getFecha_devolucion());
 
             ps.executeUpdate();
 
@@ -60,20 +57,17 @@ public class ParticipaPrestamoDAO {
     }
 
 
-    // UPDATE
-    public void actualizar(Edicion e) {
-        String sql = "UPDATE Edicion SET id_curso=?, fecha_inicio=?, fecha_fin=?, horario=?, lugar=?, id_empleado_imparte=? WHERE id=?";
+    // // UPDATE
+    public void actualizar(ParticipaPrestamo e) {
+        String sql = "UPDATE ParticipaPrestamo SET fecha_prestamo, fecha_devolucion WHERE id_libro AND id_usuario,";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, e.getIdCurso());
-            ps.setDate(2, e.getFechaInicio());
-            ps.setDate(3, e.getFechaFin());
-            ps.setString(4, e.getHorario());
-            ps.setString(5, e.getLugar());
-            ps.setObject(6, e.getIdEmpleadoImparte());
-            ps.setInt(7, e.getId());
+            ps.setDate(1, e.getFecha_prestamo());
+            ps.setDate(2, e.getFecha_devolucion());
+            ps.setString(3, e.getLibro());
+            ps.setInt(4, e.getId_usuario());
 
             ps.executeUpdate();
 
@@ -83,14 +77,15 @@ public class ParticipaPrestamoDAO {
     }
 
 
-    // DELETE
-    public void eliminar(int id) {
-        String sql = "DELETE FROM Edicion WHERE id=?";
+    // // DELETE
+    public void eliminar(String id_libro, int id_us) {
+        String sql = "DELETE FROM Edicion WHERE id_libro=? AND id_us=?";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setString(1, id_libro);
+            ps.setInt(2, id_us);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -98,4 +93,3 @@ public class ParticipaPrestamoDAO {
         }
     }
 }
-

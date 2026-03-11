@@ -9,7 +9,7 @@ public class UsuariosDAO {
     // READ
     public List<Usuarios> listar() {
         List<Usuarios> lista = new ArrayList<>();
-        String sql = "SELECT id, nombre, ape1, ape2, edad FROM Usuarios";
+        String sql = "SELECT id, nombre, apellido1, apellido2, edad FROM Usuarios";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -33,7 +33,7 @@ public class UsuariosDAO {
 
     // CREATE
     public void insertar(Usuarios c) {
-        String sql = "INSERT INTO Usuarios (id, nombre, ape1, ape2, edad) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Usuarios (id, nombre, apellido1, apellido2, edad) VALUES (?,?,?,?,?)";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -51,16 +51,16 @@ public class UsuariosDAO {
 
     // UPDATE
     public void actualizar(Usuarios c) {
-        String sql = "UPDATE Usuarios SET nombre=?, ape1=?, ape2=?, edad=?  WHERE id=?";
+        String sql = "UPDATE Usuarios SET nombre=?, apellido1=?, apellido2=?, edad=?  WHERE id=?";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
            
-            ps.setInt(1, c.getId());
-            ps.setString(2, c.getNombre());
-            ps.setString(3, c.getApe1());
-            ps.setString(4, c.getApe2());
-            ps.setInt(5, c.getEdad());
+            ps.setString(1, c.getNombre());
+            ps.setString(2, c.getApe1());
+            ps.setString(3, c.getApe2());
+            ps.setInt(4, c.getEdad());
+            ps.setInt(5, c.getId());
 
             ps.executeUpdate();
 
