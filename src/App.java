@@ -14,7 +14,10 @@ public class App {
         // Añadir los paneles como pestañas
         tabbedPane.add("Libros", view);
         // Definir el controlador asociado
-        LibrosController l1=new LibrosController(view);
+        // CategoriaController c1=new CategoriaController(view);
+        // PiezaController c2=new PiezaController(view2);
+        // ProveedorController c3=new ProveedorController(view3);
+        // SuministraController c4=new SuministraController(view4);
         // Asociar el TabbedPane
         frame.setContentPane(tabbedPane);
         // Tamaño y visibilidad

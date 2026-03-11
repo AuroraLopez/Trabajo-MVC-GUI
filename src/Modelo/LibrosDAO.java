@@ -74,16 +74,14 @@ public class LibrosDAO {
             ps.setInt(7, p.getAnio_pub());
             ps.setString(8, p.getUrl());
             //Enum a String
-            ps.setString(9, p.getTipo().name()); 
-            //WHERE
-            ps.setString(10, p.getISBN());
+            ps.setString(10, p.getTipo().name()); 
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
 
     // DELETE
     public void eliminar(String ISBN) {
-        String sql = "DELETE FROM Libros WHERE ISBN=?";
+        String sql = "DELETE FROM Libros WHERE id=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ISBN); 

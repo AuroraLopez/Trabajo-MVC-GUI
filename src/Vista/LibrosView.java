@@ -46,6 +46,9 @@ public class LibrosView extends JPanel{
             panelFormulario.add(new JLabel("Editorial: "));
             panelFormulario.add(txtEditorial);
 
+            panelFormulario.add(new JLabel("Autor: "));
+            panelFormulario.add(txtAutor);
+
             panelFormulario.add(new JLabel("Número de páginas: "));
             panelFormulario.add(txtnumPag);
 
