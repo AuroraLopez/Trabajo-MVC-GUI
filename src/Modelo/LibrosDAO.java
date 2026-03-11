@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LibrosDAO {
+    
     // READ (lista de Persona)
     public ArrayList<Libros> listar() {
         ArrayList<Libros> libros = new ArrayList<>();
@@ -48,12 +49,13 @@ public class LibrosDAO {
             ps.setString(2, p.getTitulo());
             ps.setString(3, p.getEditorial());
             ps.setString(4, p.getAutor());
-            ps.setString(5, p.getDescrip());
-            ps.setString(6, p.getGenero());
-            ps.setInt(7, p.getAnio_pub());
-            ps.setString(8, p.getUrl());
+            ps.setInt(5, p.getNumPaginas());
+            ps.setString(6, p.getDescrip());
+            ps.setString(7, p.getGenero());
+            ps.setInt(8, p.getAnio_pub());
+            ps.setString(9, p.getUrl());
             //Enum a String
-            ps.setString(9, p.getTipo().name()); 
+            ps.setString(10, p.getTipo().name()); 
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
@@ -63,23 +65,25 @@ public class LibrosDAO {
         String sql = "UPDATE Libros SET titulo=?, editorial=?, autor=?, numPag=?, descripcion=?, genero=?, anio_pub=?, url=?, tipo=? WHERE ISBN=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, p.getISBN()); 
-            ps.setString(3, p.getTitulo());
-            ps.setString(4, p.getEditorial());
-            ps.setString(5, p.getAutor());
-            ps.setString(6, p.getDescrip());
-            ps.setString(7, p.getGenero());
-            ps.setInt(8, p.getAnio_pub());
-            ps.setString(9, p.getUrl());
+            ps.setString(1, p.getTitulo());
+            ps.setString(2, p.getEditorial());
+            ps.setString(3, p.getAutor());
+            ps.setInt(4, p.getNumPaginas());
+            ps.setString(5, p.getDescrip());
+            ps.setString(6, p.getGenero());
+            ps.setInt(7, p.getAnio_pub());
+            ps.setString(8, p.getUrl());
             //Enum a String
-            ps.setString(10, p.getTipo().name()); 
+            ps.setString(9, p.getTipo().name()); 
+            //WHERE
+            ps.setString(10, p.getISBN());
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
 
     // DELETE
     public void eliminar(String ISBN) {
-        String sql = "DELETE FROM Libros WHERE id=?";
+        String sql = "DELETE FROM Libros WHERE ISBN=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ISBN); 
