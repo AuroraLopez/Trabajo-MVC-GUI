@@ -74,7 +74,10 @@ public class LibrosDAO {
             ps.setInt(7, p.getAnio_pub());
             ps.setString(8, p.getUrl());
             //Enum a String
-            ps.setString(10, p.getTipo().name()); 
+            ps.setString(9, p.getTipo().name()); 
+            //WHERE
+            ps.setString(10, p.getISBN());
+
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
