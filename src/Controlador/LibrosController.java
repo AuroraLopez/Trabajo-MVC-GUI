@@ -1,8 +1,14 @@
 package Controlador;
 
+import java.awt.Image;
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.text.View;
 
 import Modelo.Libros;
 import Modelo.LibrosDAO;
@@ -119,6 +125,26 @@ public class LibrosController {
             limpiar();
     }
 
+    private Image Imagen(){
+        ImageIcon icono = null;
+        String imagen = view.txtURL.getText();
+        try {
+            if (imagen != null && !imagen.trim().isEmpty()) {
+                URL url = new URL(imagen);
+                icono = new ImageIcon(url);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    null, "URL no válida o no se pudo cargar la imagen",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        Image imagenEscalada = icono.getImage()
+                    .getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        return imagenEscalada;
+        
+    }
+
     private void seleccionarFila(){
         
         int fila = view.tabla.getSelectedRow();
@@ -133,7 +159,8 @@ public class LibrosController {
             view.txtanio_pub.setText(view.modeloTabla.getValueAt(fila, 7).toString());
             view.txtURL.setText(view.modeloTabla.getValueAt(fila, 8).toString());
             view.txttipo.setText(view.modeloTabla.getValueAt(fila, 9).toString());
-      
+            view.labelImage.setIcon(new ImageIcon(Imagen()));
+        
     }
     private void cargarTabla(){
         view.modeloTabla.setRowCount(0);
