@@ -11,10 +11,16 @@ public class App {
         JTabbedPane tabbedPane =new JTabbedPane();
         tabbedPane.setBounds(50,50,300,200);
         LibrosView view = new LibrosView();
+        // PiezaView view2= new PiezaView();
+        // ProveedorView view3= new ProveedorView();
+        // SuministroView view4= new SuministroView();
         // Añadir los paneles como pestañas
         tabbedPane.add("Libros", view);
+        // tabbedPane.add("Pieza", view2);
+        // tabbedPane.add("Proveedor", view3);
+        // tabbedPane.add("Suministro", view4);
         // Definir el controlador asociado
-        // CategoriaController c1=new CategoriaController(view);
+        LibrosController l1=new LibrosController(view);
         // PiezaController c2=new PiezaController(view2);
         // ProveedorController c3=new ProveedorController(view3);
         // SuministraController c4=new SuministraController(view4);

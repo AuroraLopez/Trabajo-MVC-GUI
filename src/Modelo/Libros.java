@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.sql.Date;
+
 public class Libros {
     //Atributos
     protected String ISBN;

@@ -7,24 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LibrosDAO {
-    
     // READ (lista de Persona)
     public ArrayList<Libros> listar() {
         ArrayList<Libros> libros = new ArrayList<>();
         String sql = "SELECT ISBN, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo FROM libros";
-        
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            
             while (rs.next()) {
-                
                 Tipo tipo = Tipo.valueOf(
                     rs.getString("tipo").toUpperCase() //Es necesario, porque la palabra debe ser identica, y cuenta las mayus
                 );
-
-                libros.add(new Libros(
-                            rs.getString("ISBN"),                     
+                libros.add(new Libros(rs.getString("ISBN"),                     
 	                        rs.getString("titulo"),
                             rs.getString("editorial"),
                             rs.getString("autor"),
@@ -75,16 +69,14 @@ public class LibrosDAO {
             ps.setString(8, p.getUrl());
             //Enum a String
             ps.setString(9, p.getTipo().name()); 
-            //WHERE
-            ps.setString(10, p.getISBN());
-
+            ps.setString(10, p.getISBN()); 
             ps.executeUpdate();
         } catch (SQLException e) {  e.printStackTrace();  }
     }
 
     // DELETE
     public void eliminar(String ISBN) {
-        String sql = "DELETE FROM Libros WHERE id=?";
+        String sql = "DELETE FROM Libros WHERE isbn=?";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ISBN); 

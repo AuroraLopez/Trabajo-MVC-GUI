@@ -53,7 +53,6 @@ public class LibrosController {
             }
         });
     }
-    
     // ===============================
     // ==        METODO CRUD        ==
     // ===============================
@@ -157,16 +156,16 @@ public class LibrosController {
     }
 
     private void limpiar(){
-        view.txtISBN.setText("XYZ");
-        view.txtTitulo.setText("XYZ");
-        view.txtEditorial.setText("XYZ");
-        view.txtAutor.setText("XYZ");
-        view.txtnumPag.setText("12");
-        view.txtDescripcion.setText("XYZ");
-        view.txtGenero.setText("XYZ");
-        view.txtanio_pub.setText("12");
-        view.txtURL.setText("XYZ");
-        view.txttipo.setText("XYZ");
+        view.txtISBN.setText("");
+        view.txtTitulo.setText("");
+        view.txtEditorial.setText("");
+        view.txtAutor.setText("");
+        view.txtnumPag.setText("");
+        view.txtDescripcion.setText("");
+        view.txtGenero.setText("");
+        view.txtanio_pub.setText("");
+        view.txtURL.setText("");
+        view.txttipo.setText("");
         view.tabla.clearSelection();
     }
 }
