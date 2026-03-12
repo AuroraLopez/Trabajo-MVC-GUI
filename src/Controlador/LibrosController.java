@@ -140,7 +140,7 @@ public class LibrosController {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
         Image imagenEscalada = icono.getImage()
-                    .getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+                    .getScaledInstance(90, 90, Image.SCALE_SMOOTH);
         return imagenEscalada;
         
     }

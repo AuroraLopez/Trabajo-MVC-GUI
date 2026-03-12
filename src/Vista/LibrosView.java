@@ -37,6 +37,7 @@ public class LibrosView extends JPanel{
 
         // ===== PANEL SUPERIOR =======
         JPanel panelFormulario = new JPanel();
+        JPanel butons = new JPanel();
         panelFormulario.setBorder(
             BorderFactory.createTitledBorder("Datos Libros"));
         
@@ -70,19 +71,25 @@ public class LibrosView extends JPanel{
             panelFormulario.add(new JLabel("Tipo: "));
             panelFormulario.add(txttipo);
 
-            panelFormulario.add(btnInsertar);
-            panelFormulario.add(btnActualizar);
-            panelFormulario.add(btnEliminar);
-            panelFormulario.add(btnLimpiar);
+            butons.add(btnInsertar);
+            butons.add(btnActualizar);
+            butons.add(btnEliminar);
+            butons.add(btnLimpiar);
 
-            panelFormulario.add(labelImage);
+            butons.add(labelImage);
 
         // ===== PANEL INFERIOR =======
         JScrollPane scroll = new JScrollPane(tabla);
+        JScrollPane scroll2 = new JScrollPane(panelFormulario);
+        panelFormulario.setPreferredSize(new Dimension(120, panelFormulario.getPreferredSize().height));
+        butons.setPreferredSize(new Dimension(150,150));
+
+        add(scroll2, BorderLayout.WEST);
+        
+        add(butons, BorderLayout.EAST);
+
         scroll.setBorder(
             BorderFactory.createTitledBorder("Listado Libros"));
-            panelFormulario.setPreferredSize(new Dimension(0, 150));
-            add(panelFormulario, BorderLayout.NORTH);
             add (scroll, BorderLayout.CENTER);
     }
 }
