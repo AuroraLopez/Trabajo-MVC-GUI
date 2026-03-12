@@ -12,7 +12,7 @@ public class ParticipaPrestamoDAO {
     // READ
     public List<ParticipaPrestamo> listar() {
         List<ParticipaPrestamo> lista = new ArrayList<>();
-        String sql = "SELECT id_libro, id_usuario, fecha_prestamo, fecha_devolucion FROM ParticipaPrestamoDAO";
+        String sql = "SELECT id_libro, id_usuario, fecha_prestamos, fecha_devolucion FROM ParticipaPrestamos";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -24,7 +24,7 @@ public class ParticipaPrestamoDAO {
                 lista.add(new ParticipaPrestamo(
                     rs.getString("id_libro"),
                     rs.getInt("id_usuario"),
-                    rs.getDate("fecha_prestamo"),
+                    rs.getDate("fecha_prestamos"),
                     rs.getDate("fecha_devolucion")
                 ));
             }
@@ -39,7 +39,7 @@ public class ParticipaPrestamoDAO {
 
     // CREATE
     public void insertar(ParticipaPrestamo e) {
-        String sql = "INSERT INTO ParticipaPrestamo (id_libro, id_usuario, fecha_prestamo, fecha_devolucion) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO ParticipaPrestamos (id_libro, id_usuario, fecha_prestamos, fecha_devolucion) VALUES (?,?,?,?)";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -59,7 +59,7 @@ public class ParticipaPrestamoDAO {
 
     // // UPDATE
     public void actualizar(ParticipaPrestamo e) {
-        String sql = "UPDATE ParticipaPrestamo SET fecha_prestamo, fecha_devolucion WHERE id_libro AND id_usuario,";
+        String sql = "UPDATE ParticipaPrestamos SET fecha_prestamos, fecha_devolucion WHERE id_libro AND id_usuario,";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -79,7 +79,7 @@ public class ParticipaPrestamoDAO {
 
     // // DELETE
     public void eliminar(String id_libro, int id_us) {
-        String sql = "DELETE FROM Edicion WHERE id_libro=? AND id_us=?";
+        String sql = "DELETE FROM ParticipaPrestamos WHERE id_libro=? AND id_usuario=?";
 
         try (Connection conn = Conexion.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
