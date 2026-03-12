@@ -7,9 +7,7 @@ public class Ebook extends Libros{
     protected double tamanio;
     protected String formato;
     
-    //Contructor
- 
-    //Getters and Setters
+    //Contructores
 
     public double getTamanio() {
         return tamanio;
