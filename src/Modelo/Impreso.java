@@ -8,7 +8,7 @@ public class Impreso extends Libros {
     protected Date fecha_impresion;
     
     public Impreso(String iSBN, String titulo, String editorial, String autor, int numPaginas, String descrip,
-            String genero, Date anio_pub, String url, Tipo tipo, boolean esTapaDura, Date fecha_impresion) {
+            String genero, int anio_pub, String url, Tipo tipo, boolean esTapaDura, Date fecha_impresion) {
         super(iSBN, titulo, editorial, autor, numPaginas, descrip, genero, anio_pub, url, tipo);
         this.esTapaDura = esTapaDura;
         this.fecha_impresion = fecha_impresion;

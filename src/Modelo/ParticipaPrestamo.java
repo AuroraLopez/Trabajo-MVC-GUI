@@ -2,6 +2,8 @@ package Modelo;
 
 import java.sql.Date;
 
+import java.sql.Date;
+
 public class ParticipaPrestamo {
     // Atributos
     // protected Libros libro;
