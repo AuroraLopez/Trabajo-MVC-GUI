@@ -23,6 +23,9 @@ public class LibrosView extends JPanel{
     public JButton btnEliminar = new JButton("Eliminar");
     public JButton btnLimpiar = new JButton("Limpiar");
 
+    // Label
+    public JLabel labelImage = new JLabel();
+
     // Tabla
     public DefaultTableModel modeloTabla = new DefaultTableModel(new Object[]{"ISBN", "titulo", "editorial", "autor","descripcion", "numPag", "genero", "anio_pub", "URL", "tipo"}, 0);
 
@@ -72,11 +75,13 @@ public class LibrosView extends JPanel{
             panelFormulario.add(btnEliminar);
             panelFormulario.add(btnLimpiar);
 
+            panelFormulario.add(labelImage);
+
         // ===== PANEL INFERIOR =======
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setBorder(
             BorderFactory.createTitledBorder("Listado Libros"));
-            panelFormulario.setPreferredSize(new Dimension(0, 100));
+            panelFormulario.setPreferredSize(new Dimension(0, 150));
             add(panelFormulario, BorderLayout.NORTH);
             add (scroll, BorderLayout.CENTER);
     }
