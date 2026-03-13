@@ -32,6 +32,7 @@ public class App {
 
         // Asociar el TabbedPane
         frame.setContentPane(tabbedPane);
+        
         // Tamaño y visibilidad
         frame.setSize(800,400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

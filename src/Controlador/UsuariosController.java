@@ -55,11 +55,16 @@ public class UsuariosController {
     }});
         view.btnLimpiar.addActionListener(e -> limpiar());
 
-        view.tabla.getSelectionModel().addListSelectionListener(e ->{
+        view.tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 seleccionarFila();
             }
         });
+
+        // Restringir campos a solo números
+        AceptarNumeroAdapter soloNumeros = new AceptarNumeroAdapter();
+        view.txtID.addKeyListener(soloNumeros);
+        view.txtEdad.addKeyListener(soloNumeros);
     }
     // ===============================
     // ==        METODO CRUD        ==

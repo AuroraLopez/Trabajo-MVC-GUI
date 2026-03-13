@@ -19,52 +19,59 @@ public class LibrosController {
     private LibrosView view;
     private LibrosDAO dao = new LibrosDAO();
 
-    public LibrosController(LibrosView view){
-        this.view= view;
+    public LibrosController(LibrosView view) {
+        this.view = view;
 
         initController();
         cargarTabla();
     }
 
-    private void initController(){
+    private void initController() {
         view.btnInsertar.addActionListener(e -> insertar());
-        view.btnActualizar.addActionListener(e -> 
-            {int respuesta = JOptionPane.showConfirmDialog(
-            view, // Componente padre
-            "¿Estás seguro de que deseas actualizar este registro?", // Mensaje
-            "Confirmar Actualización", // Título
-            JOptionPane.YES_NO_OPTION // Tipo de botones
-    );
+        view.btnActualizar.addActionListener(e -> {
+            int respuesta = JOptionPane.showConfirmDialog(
+                    view, // Componente padre
+                    "¿Estás seguro de que deseas actualizar este registro?", // Mensaje
+                    "Confirmar Actualización", // Título
+                    JOptionPane.YES_NO_OPTION // Tipo de botones
+            );
 
-    if (respuesta == JOptionPane.YES_OPTION) {
-        actualizar();
-    }
-});
-        view.btnEliminar.addActionListener(e -> 
-            {int respuesta = JOptionPane.showConfirmDialog(
-            view, // Componente padre
-            "¿Estás seguro de que deseas borrar este registro?", // Mensaje
-            "Confirmar Actualización", // Título
-            JOptionPane.YES_NO_OPTION // Tipo de botones
-    );
+            if (respuesta == JOptionPane.YES_OPTION) {
+                actualizar();
+            }
+        });
+        view.btnEliminar.addActionListener(e -> {
+            int respuesta = JOptionPane.showConfirmDialog(
+                    view, // Componente padre
+                    "¿Estás seguro de que deseas borrar este registro?", // Mensaje
+                    "Confirmar Actualización", // Título
+                    JOptionPane.YES_NO_OPTION // Tipo de botones
+            );
 
-    if (respuesta == JOptionPane.YES_OPTION) {
-        eliminar();
-    }});
+            if (respuesta == JOptionPane.YES_OPTION) {
+                eliminar();
+            }
+        });
         view.btnLimpiar.addActionListener(e -> limpiar());
 
-        view.tabla.getSelectionModel().addListSelectionListener(e ->{
+        view.tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 seleccionarFila();
             }
         });
+
+        // Restringir campos a solo números
+        AceptarNumeroAdapter soloNumeros = new AceptarNumeroAdapter();
+        view.txtnumPag.addKeyListener(soloNumeros);
+        view.txtanio_pub.addKeyListener(soloNumeros);
     }
+
     // ===============================
-    // ==        METODO CRUD        ==
+    // == METODO CRUD ==
     // ===============================
-    private void insertar(){
+    private void insertar() {
         try {
-            String isbn= view.txtISBN.getText();
+            String isbn = view.txtISBN.getText();
             String titulo = view.txtTitulo.getText();
             String editorial = view.txtEditorial.getText();
             String autor = view.txtAutor.getText();
@@ -73,7 +80,7 @@ public class LibrosController {
             String genero = view.txtGenero.getText();
             int anio_pub = Integer.parseInt(view.txtanio_pub.getText());
             String url = view.txtURL.getText();
-            Tipo tipo = Tipo.valueOf(view.txttipo.getText().toUpperCase());
+            Tipo tipo = Tipo.valueOf(view.cmbTipo.getSelectedItem().toString());
 
             dao.insertar(new Libros(isbn, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo));
 
@@ -85,12 +92,13 @@ public class LibrosController {
         }
     }
 
-    private void actualizar(){
-        
+    private void actualizar() {
+
         int fila = view.tabla.getSelectedRow();
-        if( fila == -1) return;
+        if (fila == -1)
+            return;
         try {
-            String isbn= view.txtISBN.getText();
+            String isbn = view.txtISBN.getText();
             String titulo = view.txtTitulo.getText();
             String editorial = view.txtEditorial.getText();
             String autor = view.txtAutor.getText();
@@ -99,10 +107,10 @@ public class LibrosController {
             String genero = view.txtGenero.getText();
             int anio_pub = Integer.parseInt(view.txtanio_pub.getText());
             String url = view.txtURL.getText();
-            Tipo tipo = Tipo.valueOf(view.txttipo.getText());
+            Tipo tipo = Tipo.valueOf(view.cmbTipo.getSelectedItem().toString());
 
-
-            dao.actualizar(new Libros(isbn, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo));
+            dao.actualizar(
+                    new Libros(isbn, titulo, editorial, autor, numPag, descripcion, genero, anio_pub, url, tipo));
 
             cargarTabla();
             limpiar();
@@ -112,77 +120,97 @@ public class LibrosController {
         }
     }
 
-    private void eliminar(){
-        
+    private void eliminar() {
+
         int fila = view.tabla.getSelectedRow();
-        if( fila == -1) return;
-    
-            String ISBN= view.modeloTabla.getValueAt(fila, 0).toString();
+        if (fila == -1)
+            return;
 
-            dao.eliminar(ISBN);
+        String ISBN = view.modeloTabla.getValueAt(fila, 0).toString();
 
-            cargarTabla();
-            limpiar();
+        dao.eliminar(ISBN);
+
+        cargarTabla();
+        limpiar();
     }
 
-    private Image Imagen(){
-        ImageIcon icono = null;
-        String imagen = view.txtURL.getText();
-        try {
-            if (imagen != null && !imagen.trim().isEmpty()) {
-                URL url = new URL(imagen);
-                icono = new ImageIcon(url);
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    null, "URL no válida o no se pudo cargar la imagen",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Obtiene una versión escalada de la imagen desde la URL proporcionada.
+     * Escala la imagen para que se ajuste exactamente al tamaño del contenedor.
+     */
+    private ImageIcon obtenerImagenEscalada() {
+        String urlImagen = view.txtURL.getText();
+        if (urlImagen == null || urlImagen.trim().isEmpty()) {
+            return null;
         }
-        Image imagenEscalada = icono.getImage()
-                    .getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        return imagenEscalada;
-        
+
+        try {
+            // Obtenemos el tamaño actual del label, si es 0 usamos valores por defecto
+            int ancho = view.labelImage.getWidth();
+            int alto = view.labelImage.getHeight();
+
+            if (ancho <= 0)
+                ancho = 300;
+            if (alto <= 0)
+                alto = 180;
+
+            ImageIcon iconoOriginal = new ImageIcon(new URL(urlImagen));
+
+            // Verificamos que la imagen se haya cargado correctamente
+            if (iconoOriginal.getIconWidth() > 0) {
+                Image imgEscalada = iconoOriginal.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+                return new ImageIcon(imgEscalada);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar la imagen: " + e.getMessage());
+        }
+        return null;
     }
 
-    private void seleccionarFila(){
-        
+    private void seleccionarFila() {
         int fila = view.tabla.getSelectedRow();
-        if( fila == -1) return;
-            view.txtISBN.setText(view.modeloTabla.getValueAt(fila, 0).toString());
-            view.txtTitulo.setText(view.modeloTabla.getValueAt(fila, 1).toString());
-            view.txtEditorial.setText(view.modeloTabla.getValueAt(fila, 2).toString());
-            view.txtAutor.setText(view.modeloTabla.getValueAt(fila, 3).toString());
-            view.txtnumPag.setText(view.modeloTabla.getValueAt(fila, 4).toString());
-            view.txtDescripcion.setText(view.modeloTabla.getValueAt(fila, 5).toString());
-            view.txtGenero.setText(view.modeloTabla.getValueAt(fila, 6).toString());
-            view.txtanio_pub.setText(view.modeloTabla.getValueAt(fila, 7).toString());
-            view.txtURL.setText(view.modeloTabla.getValueAt(fila, 8).toString());
-            view.txttipo.setText(view.modeloTabla.getValueAt(fila, 9).toString());
-            view.labelImage.setIcon(new ImageIcon(Imagen()));
-        
+        if (fila == -1)
+            return;
+
+        // Llenar campos de texto
+        view.txtISBN.setText(view.modeloTabla.getValueAt(fila, 0).toString());
+        view.txtTitulo.setText(view.modeloTabla.getValueAt(fila, 1).toString());
+        view.txtEditorial.setText(view.modeloTabla.getValueAt(fila, 2).toString());
+        view.txtAutor.setText(view.modeloTabla.getValueAt(fila, 3).toString());
+        view.txtnumPag.setText(view.modeloTabla.getValueAt(fila, 4).toString());
+        view.txtDescripcion.setText(view.modeloTabla.getValueAt(fila, 5).toString());
+        view.txtGenero.setText(view.modeloTabla.getValueAt(fila, 6).toString());
+        view.txtanio_pub.setText(view.modeloTabla.getValueAt(fila, 7).toString());
+        view.txtURL.setText(view.modeloTabla.getValueAt(fila, 8).toString());
+
+        // Actualizar la seleccion del combo box
+        view.cmbTipo.setSelectedItem(view.modeloTabla.getValueAt(fila, 9).toString());
+
+        // Actualizar la imagen escalada al 100% del label
+        view.labelImage.setIcon(obtenerImagenEscalada());
     }
-    private void cargarTabla(){
+
+    private void cargarTabla() {
         view.modeloTabla.setRowCount(0);
 
-        List<Libros> lista= dao.listar();
-        for(Libros c: lista){
-            view.modeloTabla.addRow(new Object[]{
-                c.getISBN(),
-                c.getTitulo(),
-                c.getEditorial(),
-                c.getAutor(),
-                c.getNumPaginas(),
-                c.getDescrip(),
-                c.getGenero(),
-                c.getAnio_pub(),
-                c.getUrl(),
-                c.getTipo()
+        List<Libros> lista = dao.listar();
+        for (Libros c : lista) {
+            view.modeloTabla.addRow(new Object[] {
+                    c.getISBN(),
+                    c.getTitulo(),
+                    c.getEditorial(),
+                    c.getAutor(),
+                    c.getNumPaginas(),
+                    c.getDescrip(),
+                    c.getGenero(),
+                    c.getAnio_pub(),
+                    c.getUrl(),
+                    c.getTipo()
             });
         }
     }
 
-    private void limpiar(){
+    private void limpiar() {
         view.txtISBN.setText("");
         view.txtTitulo.setText("");
         view.txtEditorial.setText("");
@@ -192,7 +220,7 @@ public class LibrosController {
         view.txtGenero.setText("");
         view.txtanio_pub.setText("");
         view.txtURL.setText("");
-        view.txttipo.setText("");
+        view.cmbTipo.setSelectedIndex(0);
         view.tabla.clearSelection();
     }
 }
