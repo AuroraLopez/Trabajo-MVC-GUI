@@ -6,9 +6,8 @@ import java.awt.*;
 
 /**
  * Vista para la gestión de libros.
- * Esta clase es una versión optimizada y limpia del diseño realizado en
- * NetBeans.
- * Mantiene la disposición original pero con código más eficiente y legible.
+ * Esta clase es una versión optimizada y limpia del diseño que hice en NetBeans.
+ * Mantiene la disposición original, pero más eficiente y legible.
  */
 public class LibrosView extends JPanel {
 
@@ -22,53 +21,88 @@ public class LibrosView extends JPanel {
     public JTextField txtGenero = new JTextField();
     public JTextField txtanio_pub = new JTextField();
     public JTextField txtURL = new JTextField();
-    public JComboBox<String> cmbTipo = new JComboBox<>(new String[]{"EBOOK", "IMPRESO"});
+    //Reemplazo del JtextField en la version previa
+    public JComboBox<String> cmbTipo = new JComboBox<>(new String[] { "EBOOK", "IMPRESO" });
 
-    // --- BOTONES ---
+    // BOTONES
     public JButton btnInsertar = new JButton("Insertar");
     public JButton btnActualizar = new JButton("Actualizar");
     public JButton btnEliminar = new JButton("Eliminar");
     public JButton btnLimpiar = new JButton("Limpiar");
 
-    // --- ETIQUETA PARA IMAGEN ---
+    // Area para la Imagen
     public JLabel labelImage = new JLabel();
 
-    // --- TABLA Y MODELO ---
+    // TABLA Y MODELO
     public DefaultTableModel modeloTabla = new DefaultTableModel(
-            new Object[] { "ISBN", "Título", "Editorial", "Autor", "Descripción", "Páginas", "Género", "Año", "URL",
-                    "Tipo" },
+            // Nombre_Columnas a forma de objeto
+            new Object[] { 
+                "ISBN", "Título", "Editorial", "Autor", "Descripción", "Páginas", "Género", "Año", "URL","Tipo"
+            },
+            // El número inicial de filas= 0
             0);
+            
+    // Se crea una JTable
+    // Esta, muestra las columnas definidas y las filas entrantes        
     public JTable tabla = new JTable(modeloTabla);
 
+    // Constructor de la vista.
     public LibrosView() {
         inicializarComponentes();
     }
 
     /**
-     * Configura el diseño de la vista de forma sencilla y eficiente.
+     * Incializacion y configuracion de los componentes
      */
     private void inicializarComponentes() {
-        // Usamos BorderLayout como base para organizar las áreas principales
+        // BorderLayout de base para organizar las áreas principales
         setLayout(new BorderLayout(5, 5));
 
-        // 1. PANEL IZQUIERDO: Contiene la Tabla (Arriba) y el Panel de Acciones (Abajo)
-        JPanel panelIzquierdo = new JPanel(new BorderLayout(5, 5));
+        // ===============================
+        // PANEL IZQUIERDO
+        // ===============================
+
+        // Contiene la Tabla (Arriba) y el Panel de Acciones (Abajo)
+        JPanel panelIzquierdo = new JPanel(
+            new BorderLayout(5, 5) //Separacion entre componentes hijos
+        );
 
         // Sección de la Tabla
         JScrollPane scrollTabla = new JScrollPane(tabla);
+        //Declararar Sub-titulo
         scrollTabla.setBorder(BorderFactory.createTitledBorder("Gestión de Libros"));
+        //Implementacion_Scroller
         panelIzquierdo.add(scrollTabla, BorderLayout.CENTER);
 
-        // Panel Inferior (Botones e Imagen) - Equivalente a jPanelInferior en NetBeans
-        JPanel panelAcciones = new JPanel();
-        panelAcciones.setLayout(new BoxLayout(panelAcciones, BoxLayout.X_AXIS));
-        panelAcciones.setPreferredSize(new Dimension(0, 180));
-        panelAcciones.setBackground(new Color(255, 204, 255)); // Color rosado original
+        // ===============================
+        // PANEL INFERIOR 
+        // ===============================
 
-        // Subpanel para los botones (Cuadrícula 2x2) - Equivalente a jPanel7 en
-        // NetBeans
+        //Panel hijo, que a su vez, tendra 2 hijos
+        JPanel panelAcciones = new JPanel();
+
+        //Declaracion_Layout
+        panelAcciones.setLayout(
+            //Alinea los paneles bajo el ejeX (Horizontalemnte) 
+            // en funcion del tmñ de sus propios componentes
+            new BoxLayout(panelAcciones, BoxLayout.X_AXIS) 
+        );
+
+        //Dimencion al ejecutat
+        panelAcciones.setPreferredSize(
+            new Dimension(0, 180)
+        );
+
+        //Coloreo_Fondo
+        panelAcciones.setBackground(
+            new Color(255, 204, 255)
+        ); 
+
+        // Subpanel para los botones (Cuadrícula 2x2) 
         JPanel panelBotones = new JPanel(new GridLayout(2, 2, 10, 10));
-        panelBotones.setOpaque(false); // Transparente para respetar el fondo rosado
+
+        //panelAcciones
+        panelBotones.setOpaque(false); // Transparente para que sea visible el trasfondo rosado
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelBotones.add(btnInsertar);
         panelBotones.add(btnEliminar);
@@ -98,17 +132,17 @@ public class LibrosView extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Añadimos los campos usando un método auxiliar para mantener el código limpio
-        agregarEntrada(panelForm, "ISBN:", txtISBN, gbc, 0);
-        agregarEntrada(panelForm, "Título:", txtTitulo, gbc, 1);
-        agregarEntrada(panelForm, "Editorial:", txtEditorial, gbc, 2);
-        agregarEntrada(panelForm, "Autor:", txtAutor, gbc, 3);
-        agregarEntrada(panelForm, "Páginas:", txtnumPag, gbc, 4);
-        agregarEntrada(panelForm, "Descripción:", txtDescripcion, gbc, 5);
-        agregarEntrada(panelForm, "Género:", txtGenero, gbc, 6);
-        agregarEntrada(panelForm, "Año Pub.:", txtanio_pub, gbc, 7);
-        agregarEntrada(panelForm, "URL Imagen:", txtURL, gbc, 8);
-        
+        // Usando el la metAux, se agrega los campos
+        addEntrada(panelForm, "ISBN:", txtISBN, gbc, 0);
+        addEntrada(panelForm, "Título:", txtTitulo, gbc, 1);
+        addEntrada(panelForm, "Editorial:", txtEditorial, gbc, 2);
+        addEntrada(panelForm, "Autor:", txtAutor, gbc, 3);
+        addEntrada(panelForm, "Páginas:", txtnumPag, gbc, 4);
+        addEntrada(panelForm, "Descripción:", txtDescripcion, gbc, 5);
+        addEntrada(panelForm, "Género:", txtGenero, gbc, 6);
+        addEntrada(panelForm, "Año Pub.:", txtanio_pub, gbc, 7);
+        addEntrada(panelForm, "URL Imagen:", txtURL, gbc, 8);
+
         // El campo tipo ahora es un selector
         gbc.gridy = 9;
         gbc.gridx = 0;
@@ -119,12 +153,12 @@ public class LibrosView extends JPanel {
         cmbTipo.setPreferredSize(new Dimension(150, 25));
         panelForm.add(cmbTipo, gbc);
 
-        // ScrollPane para el formulario (en caso de que la ventana sea pequeña)
+        // ScrollPane para el formulario
         JScrollPane scrollForm = new JScrollPane(panelForm);
         scrollForm.setPreferredSize(new Dimension(300, 0));
         scrollForm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // --- Ensamblaje final en el panel principal ---
+        // Ensamblaje final de las regiones en el panel principal
         add(panelIzquierdo, BorderLayout.CENTER);
         add(scrollForm, BorderLayout.EAST);
     }
@@ -132,7 +166,7 @@ public class LibrosView extends JPanel {
     /**
      * Método auxiliar para agregar etiquetas y campos alineados al formulario.
      */
-    private void agregarEntrada(JPanel p, String etiqueta, JTextField campo, GridBagConstraints gbc, int fila) {
+    private void addEntrada(JPanel p, String etiqueta, JTextField campo, GridBagConstraints gbc, int fila) {
         gbc.gridy = fila;
 
         // Etiqueta (Columna 0)

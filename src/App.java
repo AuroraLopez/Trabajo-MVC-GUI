@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.text.View;
 
 import Controlador.LibrosController;
 import Controlador.ParticipaPrestamosController;
@@ -11,6 +10,8 @@ import Vista.UsuariosView;
 
 public class App {
     public static void main(String[] args) throws Exception {
+
+        //JFrame, marco principal
         JFrame frame=new JFrame("IES Cura Valera");
 
         //Crear el TabbedPane
@@ -25,15 +26,15 @@ public class App {
         tabbedPane.add("Prestamos", view2);
         tabbedPane.add("Usuarios", view3);
 
-        // Definir el controlador asociado
+        //Definir el controlador asociado
         LibrosController l1=new LibrosController(view);
         ParticipaPrestamosController p1 = new ParticipaPrestamosController(view2);
         UsuariosController c3=new UsuariosController(view3);
 
-        // Asociar el TabbedPane
+        //Asociar el TabbedPane
         frame.setContentPane(tabbedPane);
         
-        // Tamaño y visibilidad
+        //Tamaño y visibilidad
         frame.setSize(800,400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
