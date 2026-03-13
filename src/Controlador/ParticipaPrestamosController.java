@@ -7,11 +7,16 @@ import javax.swing.JOptionPane;
 import Modelo.ParticipaPrestamo;
 import Modelo.ParticipaPrestamoDAO;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import Vista.ParticipaPrestamosView;
 
 public class ParticipaPrestamosController {
     private ParticipaPrestamosView view;
     private ParticipaPrestamoDAO dao = new ParticipaPrestamoDAO();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public ParticipaPrestamosController(ParticipaPrestamosView view){
         this.view= view;
@@ -49,44 +54,56 @@ public class ParticipaPrestamosController {
     }});
         view.btnLimpiar.addActionListener(e -> limpiar());
 
-        view.tabla.getSelectionModel().addListSelectionListener(e ->{
+        view.tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 seleccionarFila();
             }
         });
+
+        // Restringir campos a solo números
+        view.txtID_US.addKeyListener(new AceptarNumeroAdapter());
     }
     
     // ===============================
     // ==        METODO CRUD        ==
     // ===============================
-    private void insertar(){
+    private void insertar() {
         try {
             String libro = view.txtISBN.getText();
             int id_usuario = Integer.parseInt(view.txtID_US.getText());
-            //Usar DateValueOf
-            Date fecha_prestamo = Date.valueOf(view.txtFECHA_PRES.getText());
-            Date fecha_devolucion = Date.valueOf(view.txtFECHA_DEV.getText());
+
+            // Parseamos las fechas desde el formato dd/MM/yyyy
+            java.util.Date fechaP = sdf.parse(view.txtFECHA_PRES.getText());
+            java.util.Date fechaD = sdf.parse(view.txtFECHA_DEV.getText());
             
+            Date fecha_prestamo = new Date(fechaP.getTime());
+            Date fecha_devolucion = new Date(fechaD.getTime());
+
             dao.insertar(new ParticipaPrestamo(libro, id_usuario, fecha_prestamo, fecha_devolucion));
 
             cargarTabla();
             limpiar();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(view, "Código Inválido");
+            JOptionPane.showMessageDialog(view, "Código o ID Inválido");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Formato de fecha inválido (use dd/mm/aaaa)");
         }
     }
 
-    private void actualizar(){
-        
+    private void actualizar() {
         int fila = view.tabla.getSelectedRow();
-        if( fila == -1) return;
+        if (fila == -1) return;
         try {
             String libro = view.txtISBN.getText();
             int id_usuario = Integer.parseInt(view.txtID_US.getText());
-            //Usar DateValueOf
-            Date fecha_prestamo = Date.valueOf(view.txtFECHA_PRES.getText());
-            Date fecha_devolucion = Date.valueOf(view.txtFECHA_DEV.getText());
+
+            // Parseamos las fechas desde el formato dd/MM/yyyy
+            java.util.Date fechaP = sdf.parse(view.txtFECHA_PRES.getText());
+            java.util.Date fechaD = sdf.parse(view.txtFECHA_DEV.getText());
+            
+            Date fecha_prestamo = new Date(fechaP.getTime());
+            Date fecha_devolucion = new Date(fechaD.getTime());
 
             dao.actualizar(new ParticipaPrestamo(libro, id_usuario, fecha_prestamo, fecha_devolucion));
 
@@ -94,7 +111,9 @@ public class ParticipaPrestamosController {
             limpiar();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(view, "Código Inválido");
+            JOptionPane.showMessageDialog(view, "Código o ID Inválido");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Formato de fecha inválido (use dd/mm/aaaa)");
         }
     }
 
@@ -112,14 +131,28 @@ public class ParticipaPrestamosController {
             limpiar();
     }
 
-    private void seleccionarFila(){
-        
+    private void seleccionarFila() {
         int fila = view.tabla.getSelectedRow();
-        if( fila == -1) return;
+        if (fila == -1) return;
         view.txtISBN.setText(view.modeloTabla.getValueAt(fila, 0).toString());
         view.txtID_US.setText(view.modeloTabla.getValueAt(fila, 1).toString());
-        view.txtFECHA_PRES.setText(view.modeloTabla.getValueAt(fila, 2).toString());
-        view.txtFECHA_DEV.setText(view.modeloTabla.getValueAt(fila, 3   ).toString());
+
+        // Al seleccionar de la tabla, formateamos la fecha de SQL a dd/MM/yyyy
+        try {
+            Object valPres = view.modeloTabla.getValueAt(fila, 2);
+            Object valDev = view.modeloTabla.getValueAt(fila, 3);
+            
+            if (valPres != null) {
+                view.txtFECHA_PRES.setText(sdf.format(valPres));
+            }
+            if (valDev != null) {
+                view.txtFECHA_DEV.setText(sdf.format(valDev));
+            }
+        } catch (Exception e) {
+            // Si falla el formateo, intentamos poner el texto tal cual
+            view.txtFECHA_PRES.setText(view.modeloTabla.getValueAt(fila, 2).toString());
+            view.txtFECHA_DEV.setText(view.modeloTabla.getValueAt(fila, 3).toString());
+        }
     }
 
 
